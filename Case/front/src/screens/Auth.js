@@ -13,7 +13,7 @@ import {
 
 import axios from 'axios'
 
-import backgroundImage from '../../assets/imgs/login.jpg' 
+import backgroundImage from '../../assets/imgs/month.jpg'
 import commonStyles from '../commonStyles'
 
 import { server, showError, showSuccess } from '../common'
