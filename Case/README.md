@@ -1,6 +1,6 @@
 # Information management platform - PSEL 2021
 
-This project is a NodeJS REST API developed to the Ze Delivery position backend code challenge.
+This project is a information management plataform developed to the 2021 selection process, using NodeJS and React-Native .
 
 ## Getting Startted
 Follow this instructions to get a copy of this project in your local env to develop and test.
