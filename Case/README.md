@@ -8,13 +8,13 @@ Follow this instructions to get a copy of this project in your local env to deve
 ###  Tools
 To run the project you will need:
 - [NodeJS](https://nodejs.org/en/download/)
-- [MongoDB](https://docs.mongodb.com/manual/installation/)
+- [React-Native](https://reactnative.dev/docs/0.63/getting-started)
 
 ### Installing Dependencies
 Clone this repo:
 ```sh
-git clone https://github.com/angelobzsouza/ze-backend-challenge.git
-cd ze-backend-challenge
+git clone https://github.com/rafaelos-git/case.git
+cd case
 ```
 
 You can use npm to this task, but it is recommended to use [Yarn](https://yarnpkg.com/). To install it:
@@ -27,52 +27,23 @@ Then, install projects dependencies:
 yarn
 ```
 
-### Environment
-Create a .env file and set your local environment variables:
-```sh
-cp .env-example .env
-```
-Note that if your local MongoDB instance is not waiting for auth, you have to delete the DB_USER and DB_PASS variables. Your .env file will be like this:
-```sh
-PORT=<app_port>
-DB_URL='mongodb://localhost:27017/'
-DB_NAME='<db_name>'
-```
-
-### Database
-To seed database:
-```sh
-yarn database:seed
-```
-
-### Test
-Create the file .env.test using.
-```sh
-cp .env-example .env.test
-```
-It's important to set another database to make tests. If your database do not use auth, delete the  authentication variables as the .env file:
-
-You can integrations tests using
-```sh
-yarn test
-```
-or with coverage
-```sh
-yarn test:coverage
-```
-
 ## Running
-After config, to run application:
+After config, to run backend application:
 ```sh
 yarn start
+```
+And, to run front-end application:
+```sh
+npx react-native run-android
 ```
 
 ### Routes
 You can access the API by the following routes:
 | Method | Route | Description |
 | --- | --- | --- |
-| GET | /health | Return a status code 200 and a message saying that API is running |
-| GET | /docs | Show a complete API documentation using [Swagger UI Express](https://www.npmjs.com/package/swagger-ui-express). You can test routes from here.  |
-| GET | /v1/pdvs/:id | Get a specific pdv by its id |
-| GET | /v1/pdvs/nearest/:lng/:lat | Get nearest pdv passing a specific location (lng, lat) considering pdvs' coverage areas |
-| POST | /v1/pdvs | Insert a new pdv in database |
+| GET | /users | Return a status code 200 and all users |
+| GET | /users/:id | Get a specific user corresponding to the id |
+| PUT | /users/:id | Changes the data of a specific user corresponding to the id |
+| PUT | /users/:id/toggle | Toggle status of a specific user corresponding to the id |
+| POST | /users | Insert a new user in database |
+| POST | /users | Log in as a registeres user |
