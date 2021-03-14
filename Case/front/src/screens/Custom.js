@@ -15,19 +15,23 @@ import { server, showError, showSuccess } from '../common'
 import commonStyles from '../commonStyles'
 import backgroundImage from '../../assets/imgs/today.jpg'
 
+import User from '../components/User'
+
 export default class App extends Component {
     state = {
-        users: []
+        user: {}
     }
-    
+
     componentDidMount = () => {
         this.loadUserById()
     }
 
     loadUserById = async userId => {
         try {
+            userId = this.props?.navigation?.state?.params?.id ? this.props?.navigation?.state?.params?.id : -1
             const res = await axios.get(`${server}/users/${userId}`)
-            this.setState({ users: res.data })
+            console.log("res.data user",res.data)
+            this.setState({ user: res.data[0] })
         } catch(e) {
             showError(e)
         }
@@ -43,8 +47,9 @@ export default class App extends Component {
                     </View>
                 </ImageBackground>
                 <View style={styles.userList}>
-                    <FlatList data={this.state.users}
-                        keyExtractor={item => `${item.id}`}/>
+                    <User {...this.state.user} toggleState={()=>null}
+                            onPress={()=> this.props.navigation.navigate('Update', {...this.state.user})}
+                    />
                 </View>
             </View>
         )

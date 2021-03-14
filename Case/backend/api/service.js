@@ -1,9 +1,14 @@
 module.exports = app => {
     const getInfo = (req, res) => {
         app.db('users')
-            .then(users => res.json(users))
+            .then(users => res.status(200).json(users))
             .catch(err => res.status(500).json(err))
     }
+
+    // {
+    //     status: 1,
+    //     data: users
+    // }
 
     const getInfoById = (req, res) => {
         app.db('users')

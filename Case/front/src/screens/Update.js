@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useEffect} from 'react'
 import { 
   ImageBackground, 
   Text, 
@@ -7,11 +7,16 @@ import {
   TextInput, 
   TouchableOpacity,
   Platform,
+  Button
 } from 'react-native'
+
+import axios from 'axios'
 
 import backgroundImage from '../../assets/imgs/today.jpg'
 import commonStyles from '../commonStyles'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+
+import { server, showError, showSuccess } from '../common'
 
 const initialState = {
     email: '',
@@ -21,53 +26,61 @@ const initialState = {
 
 export default class App extends Component {
     state = {
-        ...initialState
+        ...initialState,
+        email: this.props?.navigation?.state?.params?.email ? this.props?.navigation?.state?.params?.email : ""
     }
 
-    update = async userId => {
+    edit = async userId => {
+        const id = this.props?.navigation?.state?.params?.id ? this.props?.navigation?.state?.params?.id : -1
+
         try {
-            const res = await axios.put(`${server}/users/`, {
+            const res = await axios.put(`${server}/users/${id}`, {
             email: this.state.email,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword
         })
 
-        this.props.navigation.navigate('Admin', res.data)
+        if(this.props?.navigation?.state?.params?.nivel === 999)
+            this.props.navigation.navigate('Admin', res.data)
+        else{
+            this.props.navigation.navigate('Custom', res.data)
+        }
 
         } catch(e) {
-          showError(e)
+          showError(userId)
         }
-      }
+    }
+
+    // adminScreen = () => {
+    //     this.props.navigation.navigate('Admin')
+    // }
 
     render (){
         const validations = []
         validations.push(this.state.email && this.state.email.includes('@'))
         validations.push(this.state.password && this.state.password.length >= 6)
-        
-        if(this.state.stageNew) {
-            validations.push(this.state.name && this.state.name.trim().length >= 3)
-            validations.push(this.state.password === this.state.confirmPassword)
-            validations.push(this.state.cpf && this.state.cpf.length == 11)
-        }
+        validations.push(this.state.password === this.state.confirmPassword)
 
         const validForm = validations.reduce((t, a) => t && a)
         return (
             <View style={styles.container}>
                 <ImageBackground source={backgroundImage}
                     style={styles.background}>
-                    <TouchableWithoutFeedback>
+                    {/* <TouchableWithoutFeedback
+                        onPress={this.adminScreen}>
                         <Text style={styles.back}>
                             Voltar
                         </Text>
-                    </TouchableWithoutFeedback>
+                    </TouchableWithoutFeedback> */}
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>Editar Dados</Text>
                     </View>
                 </ImageBackground>
                 <View style={styles.edit}>
                     <View style={styles.formContainer}>
-                        <TextInput placeholder='Novo E-mail' value={this.state.email} 
+                        <TextInput placeholder='E-mail' value={this.state.email} 
                             style={styles.input} 
+                            editable={false}
                             onChangeText={email => this.setState({ email })}/>
                         <TextInput placeholder='Nova senha' value={this.state.password} 
                             style={styles.input} secureTextEntry={true}
@@ -76,15 +89,15 @@ export default class App extends Component {
                             value={this.state.confirmPassword} 
                             style={styles.input} secureTextEntry={true}
                             onChangeText={confirmPassword => this.setState({ confirmPassword })}/>
-                        <TouchableOpacity onPress={this.update}
-                            disabled={!validForm}>
+                        <TouchableOpacity onPress={()=>this.edit()}>
                             <View style={[styles.button, validForm ? {} : { backgroundColor: '#AAA' }]}>
                                 <Text style={styles.buttonText}>
                                     Salvar
                                 </Text>
                             </View>
-                        </TouchableOpacity>
+                    </TouchableOpacity>
                     </View>
+
                 </View>
             </View>
         )
@@ -103,7 +116,7 @@ const styles = StyleSheet.create({
         paddingTop: 60,
         flex: 7,
         alignItems: 'center',
-        backgroundColor: '#AAA',
+        // backgroundColor: '#AAA',
     },
     titleBar: {
         flex: 1,

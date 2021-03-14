@@ -19,6 +19,14 @@ export default props => {
                 <Text style={styles.otherinfo}>CPF: {props.cpf}</Text>
             </View>
             <View style={styles.userState}>
+                <TouchableWithoutFeedback 
+                    onPress={() => props.toggleState(props.id)}>
+                    <View>
+                        <Text>
+                            {props.toggle ? 'Desativar' : 'Ativar'}
+                        </Text>
+                    </View>
+                </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback
                     onPress={() => {props.onPress()}}>
                     <Text  style={styles.distanceComponents}>Editar</Text>

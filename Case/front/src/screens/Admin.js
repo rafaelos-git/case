@@ -14,7 +14,7 @@ import axios from 'axios'
 import { server, showError, showSuccess } from '../common'
 import commonStyles from '../commonStyles'
 import backgroundImage from '../../assets/imgs/today.jpg'
-import User from '../components/User'
+import UserAdmin from '../components/UserAdmin'
 
 export default class App extends Component {
     state = {
@@ -42,6 +42,11 @@ export default class App extends Component {
             showError(e)
         }
     }
+    
+    updateScreen = async userId => {
+        // console.log(this.props.navigation)
+        // this.props.navigation.navigate('Update', {userId})
+    }
 
     render (){
         return (
@@ -55,7 +60,13 @@ export default class App extends Component {
                 <View style={styles.userList}>
                     <FlatList data={this.state.users}
                         keyExtractor={item => `${item.id}`}
-                        renderItem={({item}) => <User {...item} toggleState={this.toggleState} />}/>
+                        renderItem={({item}) => 
+                        <UserAdmin {...item} toggleState={this.toggleState}
+                            // navigation={this.props.navigation}
+                            onPress={()=> this.props.navigation.navigate('Update', {...item.id})}
+                            // updateScreen={this.updateScreen()} 
+                        />}
+                    />
                 </View>
             </View>
         )
