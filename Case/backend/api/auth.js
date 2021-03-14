@@ -26,9 +26,11 @@ module.exports = app => {
                     }
 
                     res.json({
+                        id: user.id,
                         name: user.name,
                         email: user.email,
-                        // token: jwt.encode(payload, authSecret),
+                        nivel: user.nivel,
+                        token: jwt.encode(payload, authSecret),
                     })
                 })
             } else {

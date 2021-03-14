@@ -3,34 +3,37 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    TextPropTypes
 } from 'react-native'
-
-import Icon from 'react-native-vector-icons/FontAwesome'
 
 import commonStyles from '../commonStyles'
 
 export default props => {
-    // const ActivatedOrNot = !toggle ? 
-    // {textDecorationline: 'line-through'} : {}
     return (
         <View style={styles.container}>
             <View style={styles.userImage}>
                 {getUserImage()}
             </View>
-            <View>
+            <View style={{ width: '55%' }}>
+                <Text>{props.users}</Text>
                 <Text style={[styles.mainInfo]}>{props.name}</Text>
                 <Text style={styles.otherinfo}>Email: {props.email}</Text>
                 <Text style={styles.otherinfo}>CPF: {props.cpf}</Text>
             </View>
-            <TouchableWithoutFeedback 
-                onPress={() => props.toggle(props.id)}>
-                <View style={styles.userState}>
-                    <Text>
-                        {props.state ? 'Desativar' : 'Ativar'}
-                    </Text>
-                </View>
-            </TouchableWithoutFeedback>
+            <View style={styles.userState}>
+                <TouchableWithoutFeedback 
+                    onPress={() => props.toggleState(props.id)}>
+                    <View>
+                        <Text>
+                            {props.toggle ? 'Desativar' : 'Ativar'}
+                        </Text>
+                    </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback>
+                    <Text  style={styles.distanceComponents}>Editar</Text>
+                </TouchableWithoutFeedback>
+            </View>
         </View>
     )
 }
@@ -38,7 +41,6 @@ export default props => {
 function getUserImage() {
     return (
         <View>
-            {/* <Icon name='check' size={20} color='#f0f'></Icon> */}
             <Text>Imagem</Text>
         </View>
     )
@@ -68,8 +70,11 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     userState: {
-        width: '20%',
-        alignItems: 'flex-end',
-        justifyContent: 'flex-end'
+        width: '25%',
+        alignItems: 'center',
+        
+    },
+    distanceComponents :{
+        paddingTop: 20,
     }
 })

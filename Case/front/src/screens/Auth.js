@@ -13,7 +13,7 @@ import {
 
 import axios from 'axios'
 
-import backgroundImage from '../../assets/imgs/month.jpg'
+import backgroundImage from '../../assets/imgs/login.jpg'
 import commonStyles from '../commonStyles'
 
 import { server, showError, showSuccess } from '../common'
@@ -64,9 +64,17 @@ export default class Auth extends Component {
           email: this.state.email,
           password: this.state.password
       })
-
+      
       axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
-      this.props.navigation.navigate('Home', res.data)
+
+      if (res.data.nivel === 1){
+        this.props.navigation.navigate('Custom', res.data)
+      } else if (res.data.nivel === 999){
+        this.props.navigation.navigate('Admin', res.data)
+      } else {
+        showError('Usuário desativado')
+      }
+      
     } catch(e) {
       showError(e)
     }
@@ -181,13 +189,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     padding: 20,
     width: '90%',
+    borderRadius: 20,
   },
   button: {
     backgroundColor: '#080',
     marginTop: 10,
     padding: 10,
     alignItems: 'center',
-    borderRadius: 7
+    borderRadius: 20
   },
   buttonText: {
     fontFamily: commonStyles.fontFamily,

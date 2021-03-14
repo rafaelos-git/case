@@ -30,7 +30,7 @@ module.exports = app => {
     const update = (req, res) => {
         app.db('users')
             .where({ id: req.params.id })
-            .update({ name: req.body.name, email: req.body.email })
+            .update({ email: req.body.email, password: req.body.password })
             .then(_ => res.status(204).send())
             .catch(err => res.status(400).json(err))
     }

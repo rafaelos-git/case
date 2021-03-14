@@ -4,46 +4,43 @@ import {
     Text, 
     StyleSheet, 
     ImageBackground,
-    FlatList 
+    FlatList,
+    TouchableOpacity,
+    Platform
 } from 'react-native'
 
+import axios from 'axios'
+
+import { server, showError, showSuccess } from '../common'
 import commonStyles from '../commonStyles'
 import backgroundImage from '../../assets/imgs/today.jpg'
-
 import User from '../components/User'
 
 export default class App extends Component {
     state = {
-        users: [{
-            id: Math.random(),
-            name: 'Rafael Oliveira Silva',
-            cpf: '42439446874',
-            email: 'rafael.oliveiratdm@outlook.com',
-            toggle: true
-        }, {
-            id: Math.random(),
-            name: 'Edson Fonseca Silva',
-            cpf: '14841735895',
-            email: 'edsonfonseca1971@outlook.com',
-            toggle: true
-        }, {
-            id: Math.random(),
-            name: 'Márcia Costa de Oliveira Silva',
-            cpf: '24585766804',
-            email: 'marcia.oliveirasilva@gmail.com',
-            state: true
-        }]
+        users: []
+    }
+    
+    componentDidMount = () => {
+        this.loadUsers()
     }
 
-    toggle = userId => {
-        const users = [...this.state.users]
-        users.forEach(users => {
-            if(users.id === userId) {
-                users.state = !users.state
-            }
-        })
+    loadUsers = async () => {
+        try {
+            const res = await axios.get(`${server}/users`)
+            this.setState({ users: res.data })
+        } catch(e) {
+            showError(e)
+        }
+    }
 
-        this.setState({ users: users })
+    toggleState = async userId => {
+        try{
+            await axios.put(`${server}/users/${userId}/toggle`)
+            await this.loadUsers()
+        } catch(e) {
+            showError(e)
+        }
     }
 
     render (){
@@ -58,7 +55,7 @@ export default class App extends Component {
                 <View style={styles.userList}>
                     <FlatList data={this.state.users}
                         keyExtractor={item => `${item.id}`}
-                        renderItem={({item}) => <User {...item} toggle={this.toggle} />}/>
+                        renderItem={({item}) => <User {...item} toggleState={this.toggleState} />}/>
                 </View>
             </View>
         )
