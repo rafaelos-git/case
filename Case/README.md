@@ -1,4 +1,4 @@
-# Ze Delivery Backend Code Challenge
+# Information management platform - PSEL 2021
 
 This project is a NodeJS REST API developed to the Ze Delivery position backend code challenge.
 
