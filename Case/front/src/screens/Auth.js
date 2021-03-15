@@ -13,6 +13,8 @@ import {
 
 import axios from 'axios'
 
+import AsyncStorage from '@react-native-community/async-storage'
+
 import backgroundImage from '../../assets/imgs/login.jpg'
 import commonStyles from '../commonStyles'
 
@@ -21,11 +23,12 @@ import { server, showError, showSuccess } from '../common'
 const initialState = {
   name: '',
   cpf: '',
-  email: 'b@b',
-  password: '123456',
+  email: '',
+  password: '',
   confirmPassword: '',
   nivel: 1,
-  stageNew: false
+  stageNew: false,
+  loginUser: null,
 }
 
 export default class Auth extends Component {
@@ -65,6 +68,9 @@ export default class Auth extends Component {
           password: this.state.password
       })
       
+      this.setState({ loginUser: res.data.name })
+      AsyncStorage.setItem('loginInfo',JSON.stringify(this.state.loginUser))
+
       axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
 
       if (res.data.nivel === 1){

@@ -10,24 +10,23 @@ import {
 } from 'react-native'
 
 import axios from 'axios'
-// import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-community/async-storage'
 
 import { server, showError, showSuccess } from '../common'
 import commonStyles from '../commonStyles'
 import backgroundImage from '../../assets/imgs/today.jpg'
 import UserAdmin from '../components/UserAdmin'
 
-// const initialState = {
-//     loginUser: ''
-// }
-
 export default class App extends Component {
     state = {
         users: [],
-        loginUser: this.props?.navigation?.state?.params?.name ? this.props?.navigation?.state?.params?.name : ""
+        loginUser: null
     }
     
     componentDidMount = async () => {
+        const loginString = await AsyncStorage.getItem('loginInfo')
+        const login = JSON.parse(loginString)
+        this.setState({ loginUser: login })
         this.loadUsers()
     }
 
@@ -56,6 +55,12 @@ export default class App extends Component {
                     style={styles.background}>
                     <View style={styles.namePosition}>
                         <Text style={styles.subtitle}>Ola, {this.state.loginUser}</Text>
+                    </View>
+                    <View style={styles.namePosition}>
+                        <TouchableOpacity
+                            onPress={()=> this.props.navigation.navigate('Auth')}>
+                            <Text style={styles.subtitle}>Sair</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>Informações</Text>

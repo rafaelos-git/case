@@ -46,6 +46,12 @@ export default class App extends Component {
                     <View style={styles.namePosition}>
                         <Text style={styles.subtitle}>Ola, {this.state.loginUser}</Text>
                     </View>
+                    <View style={styles.namePosition}>
+                        <TouchableOpacity
+                            onPress={()=> this.props.navigation.navigate('Auth')}>
+                            <Text style={styles.subtitle}>Sair</Text>
+                        </TouchableOpacity>
+                    </View>
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>Informações</Text>
                     </View>
