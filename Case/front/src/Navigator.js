@@ -1,28 +1,32 @@
 import React, {Component} from 'react'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
-// import { createDrawerNavigator } from '@react-navigation/drawer'
 
 import Auth from './screens/Auth'
-import Admin from './screens/Admin'
-import Update from './screens/Update'
-import Custom from './screens/Custom'
+import HomeAdmin from './screens/HomeAdmin'
+import UpdateUser from './screens/UpdateUser'
+import UpdateAdmin from './screens/UpdateAdmin'
+import Home from './screens/Home'
 
 const mainRoutes = {
     Auth: {
         name: 'Auth',
         screen: Auth,
     },
-    Admin: {
-        name: 'Admin',
-        screen: Admin,
+    HomeAdmin: {
+        name: 'HomeAdmin',
+        screen: HomeAdmin,
     },
-    Update: {
-        name: 'Update',
-        screen: Update,
+    Home: {
+        name: 'Home',
+        screen: Home,
     },
-    Custom: {
-        name: 'Custom',
-        screen: Custom,
+    UpdateUser: {
+        name: 'UpdateUser',
+        screen: UpdateUser,
+    },
+    UpdateAdmin: {
+        name: 'UpdateAdmin',
+        screen: UpdateAdmin,
     },
 }
 

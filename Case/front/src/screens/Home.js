@@ -19,7 +19,8 @@ import User from '../components/User'
 
 export default class App extends Component {
     state = {
-        user: {}
+        user: {},
+        loginUser: this.props?.navigation?.state?.params?.name ? this.props?.navigation?.state?.params?.name : ""
     }
 
     componentDidMount = () => {
@@ -42,13 +43,16 @@ export default class App extends Component {
             <View style={styles.container}>
                 <ImageBackground source={backgroundImage}
                     style={styles.background}>
+                    <View style={styles.namePosition}>
+                        <Text style={styles.subtitle}>Ola, {this.state.loginUser}</Text>
+                    </View>
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>Informações</Text>
                     </View>
                 </ImageBackground>
                 <View style={styles.userList}>
                     <User {...this.state.user} toggleState={()=>null}
-                            onPress={()=> this.props.navigation.navigate('Update', {...this.state.user})}
+                            onPress={()=> this.props.navigation.navigate('UpdateUser', {...this.state.user})}
                     />
                 </View>
             </View>
@@ -82,7 +86,11 @@ const styles = StyleSheet.create({
         fontFamily: commonStyles.fontFamily,
         color: commonStyles.colors.secondary,
         fontSize: 20,
-        marginLeft: 20,
-        marginBottom: 30,
+    },
+    namePosition: {
+        flexDirection: 'row',
+        marginHorizontal: 25,
+        justifyContent: 'flex-end',
+        marginTop: Platform.OS === 'ios' ? 40 : 10
     }
   })

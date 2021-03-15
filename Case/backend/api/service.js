@@ -5,11 +5,6 @@ module.exports = app => {
             .catch(err => res.status(500).json(err))
     }
 
-    // {
-    //     status: 1,
-    //     data: users
-    // }
-
     const getInfoById = (req, res) => {
         app.db('users')
             .where({ id: req.params.id })

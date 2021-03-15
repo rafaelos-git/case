@@ -10,18 +10,24 @@ import {
 } from 'react-native'
 
 import axios from 'axios'
+// import AsyncStorage from '@react-native-community/async-storage'
 
 import { server, showError, showSuccess } from '../common'
 import commonStyles from '../commonStyles'
 import backgroundImage from '../../assets/imgs/today.jpg'
 import UserAdmin from '../components/UserAdmin'
 
+// const initialState = {
+//     loginUser: ''
+// }
+
 export default class App extends Component {
     state = {
-        users: []
+        users: [],
+        loginUser: this.props?.navigation?.state?.params?.name ? this.props?.navigation?.state?.params?.name : ""
     }
     
-    componentDidMount = () => {
+    componentDidMount = async () => {
         this.loadUsers()
     }
 
@@ -42,17 +48,15 @@ export default class App extends Component {
             showError(e)
         }
     }
-    
-    updateScreen = async userId => {
-        // console.log(this.props.navigation)
-        // this.props.navigation.navigate('Update', {userId})
-    }
 
     render (){
         return (
             <View style={styles.container}>
                 <ImageBackground source={backgroundImage}
                     style={styles.background}>
+                    <View style={styles.namePosition}>
+                        <Text style={styles.subtitle}>Ola, {this.state.loginUser}</Text>
+                    </View>
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>Informações</Text>
                     </View>
@@ -62,9 +66,7 @@ export default class App extends Component {
                         keyExtractor={item => `${item.id}`}
                         renderItem={({item}) => 
                         <UserAdmin {...item} toggleState={this.toggleState}
-                            // navigation={this.props.navigation}
-                            onPress={()=> this.props.navigation.navigate('Update', {...item.id})}
-                            // updateScreen={this.updateScreen()} 
+                            onPress={()=> this.props.navigation.navigate('UpdateAdmin', {...item})} 
                         />}
                     />
                 </View>
@@ -99,7 +101,11 @@ const styles = StyleSheet.create({
         fontFamily: commonStyles.fontFamily,
         color: commonStyles.colors.secondary,
         fontSize: 20,
-        marginLeft: 20,
-        marginBottom: 30,
+    },
+    namePosition: {
+        flexDirection: 'row',
+        marginHorizontal: 25,
+        justifyContent: 'flex-end',
+        marginTop: Platform.OS === 'ios' ? 40 : 10
     }
   })

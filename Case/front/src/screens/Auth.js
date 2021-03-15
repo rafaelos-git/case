@@ -21,7 +21,7 @@ import { server, showError, showSuccess } from '../common'
 const initialState = {
   name: '',
   cpf: '',
-  email: 'a@a.com',
+  email: 'b@b',
   password: '123456',
   confirmPassword: '',
   nivel: 1,
@@ -68,9 +68,9 @@ export default class Auth extends Component {
       axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
 
       if (res.data.nivel === 1){
-        this.props.navigation.navigate('Custom', res.data)
+        this.props.navigation.navigate('Home', res.data)
       } else if (res.data.nivel === 999){
-        this.props.navigation.navigate('Admin', res.data)
+        this.props.navigation.navigate('HomeAdmin', res.data)
       } else {
         showError('Usuário desativado')
       }

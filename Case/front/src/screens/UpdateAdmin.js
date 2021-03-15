@@ -7,14 +7,12 @@ import {
   TextInput, 
   TouchableOpacity,
   Platform,
-  Button
 } from 'react-native'
 
 import axios from 'axios'
 
 import backgroundImage from '../../assets/imgs/today.jpg'
 import commonStyles from '../commonStyles'
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 import { server, showError, showSuccess } from '../common'
 
@@ -27,33 +25,32 @@ const initialState = {
 export default class App extends Component {
     state = {
         ...initialState,
+        name: this.props?.navigation?.state?.params?.name ? this.props?.navigation?.state?.params?.name : "",
+        cpf: this.props?.navigation?.state?.params?.cpf ? this.props?.navigation?.state?.params?.cpf : "",
         email: this.props?.navigation?.state?.params?.email ? this.props?.navigation?.state?.params?.email : ""
     }
 
     edit = async userId => {
-        const id = this.props?.navigation?.state?.params?.id ? this.props?.navigation?.state?.params?.id : -1
+        userId = this.props?.navigation?.state?.params?.id ? this.props?.navigation?.state?.params?.id : -1
 
         try {
-            const res = await axios.put(`${server}/users/${id}`, {
+            const res = await axios.put(`${server}/users/${userId}`, {
             email: this.state.email,
             password: this.state.password,
             confirmPassword: this.state.confirmPassword
         })
 
-        if(this.props?.navigation?.state?.params?.nivel === 999)
-            this.props.navigation.navigate('Admin', res.data)
-        else{
-            this.props.navigation.navigate('Custom', res.data)
-        }
+        console.log(this.props?.navigation?.state?.params?.nivel)
+        this.props.navigation.navigate('HomeAdmin', this.props.navigation.state.params)
 
         } catch(e) {
           showError(userId)
         }
     }
 
-    // adminScreen = () => {
-    //     this.props.navigation.navigate('Admin')
-    // }
+    adminScreen = () => {
+        this.props.navigation.navigate('HomeAdmin', this.props.navigation.state.params)
+    }
 
     render (){
         const validations = []
@@ -66,18 +63,28 @@ export default class App extends Component {
             <View style={styles.container}>
                 <ImageBackground source={backgroundImage}
                     style={styles.background}>
-                    {/* <TouchableWithoutFeedback
-                        onPress={this.adminScreen}>
-                        <Text style={styles.back}>
-                            Voltar
-                        </Text>
-                    </TouchableWithoutFeedback> */}
+                    <TouchableOpacity
+                        onPress={() => this.adminScreen()}>
+                        <View style={styles.back}>
+                            <Text style={styles.subtitle}>
+                                Voltar
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
                     <View style={styles.titleBar}>
                         <Text style={styles.title}>Editar Dados</Text>
                     </View>
                 </ImageBackground>
                 <View style={styles.edit}>
                     <View style={styles.formContainer}>
+                        <TextInput placeholder='Nome' value={this.state.name} 
+                            style={styles.input} 
+                            editable={false}
+                            onChangeText={name => this.setState({ name })}/>
+                        <TextInput placeholder='CPF' value={this.state.cpf} 
+                            style={styles.input} 
+                            editable={false}
+                            onChangeText={cpf => this.setState({ cpf })}/>
                         <TextInput placeholder='E-mail' value={this.state.email} 
                             style={styles.input} 
                             editable={false}
@@ -116,7 +123,6 @@ const styles = StyleSheet.create({
         paddingTop: 60,
         flex: 7,
         alignItems: 'center',
-        // backgroundColor: '#AAA',
     },
     titleBar: {
         flex: 1,
@@ -152,15 +158,14 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 20
     },
+    subtitle: {
+        fontFamily: commonStyles.fontFamily,
+        color: commonStyles.colors.secondary,
+        fontSize: 20,
+    },
     back: {
-        width: '15%',
-        fontSize: 15,
-        backgroundColor: '#AAA',
-        marginTop: Platform.OS === 'ios' ? 40 : 10,
-        marginLeft: 10,
-        padding: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 50
+        flexDirection: 'row',
+        marginHorizontal: 25,
+        marginTop: Platform.OS === 'ios' ? 40 : 10
     }
   })
