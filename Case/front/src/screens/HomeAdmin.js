@@ -59,7 +59,7 @@ export default class App extends Component {
                     <View style={styles.namePosition}>
                         <TouchableOpacity
                             onPress={()=> this.props.navigation.navigate('Auth')}>
-                            <Text style={styles.subtitle}>Sair</Text>
+                            <Text style={styles.quit}>Sair</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.titleBar}>
@@ -112,5 +112,10 @@ const styles = StyleSheet.create({
         marginHorizontal: 25,
         justifyContent: 'flex-end',
         marginTop: Platform.OS === 'ios' ? 40 : 10
-    }
+    },
+    quit: {
+        fontFamily: commonStyles.fontFamily,
+        color: commonStyles.colors.secondary,
+        fontSize: 17,
+    },
   })

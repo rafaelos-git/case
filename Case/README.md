@@ -47,3 +47,4 @@ You can access the API by the following routes:
 | PUT | /users/:id/toggle | Toggle status of a specific user corresponding to the id |
 | POST | /users | Insert a new user in database |
 | POST | /users | Log in as a registered user |
+| DELETE | /users/:id | Remove a specific user corresponding to the id |

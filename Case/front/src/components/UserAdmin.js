@@ -13,7 +13,6 @@ export default props => {
     return (
         <View style={styles.container}>
             <View style={{ width: '75%', paddingLeft: 20 }}>
-                {/* <Text>{props.users}</Text> */}
                 <Text style={[styles.mainInfo]}>{props.name }</Text>
                 <Text style={styles.otherinfo}>Email: {props.email}</Text>
                 <Text style={styles.otherinfo}>CPF: {props.cpf}</Text>
@@ -47,12 +46,12 @@ const styles = StyleSheet.create({
     mainInfo: {
         fontFamily: commonStyles.fontFamily,
         color: commonStyles.colors.mainText,
-        fontSize: 15,
+        fontSize: 20,
     },
     otherinfo: {
         fontFamily: commonStyles.fontFamily,
         color: commonStyles.colors.subText,
-        fontSize: 12,
+        fontSize: 15,
     },
     userState: {
         width: '25%',
