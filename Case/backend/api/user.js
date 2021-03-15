@@ -6,14 +6,23 @@ module.exports = app => {
             bcrypt.hash(password, salt, null, (err, hash) => callback(hash))
         })
     }
-    const save = (req, res) => {
+    const save = async (req, res) => {
+        const user = await app.db('users')
+                .where({ email: req.body.email })
+                .first()
+
         obterHash(req.body.password, hash => {
             const password = hash
 
-            app.db('users')
-                .insert({name: req.body.name, cpf: req.body.cpf, email: req.body.email, password, nivel: req.body.nivel, toggle: true})
-                .then(_ => res.status(204).send())
-                .catch(err => res.status(400).json(err))
+            if (!user){
+                app.db('users')
+                    .insert({name: req.body.name, cpf: req.body.cpf, email: req.body.email, password, nivel: req.body.nivel, toggle: true})
+                    .then(_ => res.status(204).send())
+                    .catch(err => res.status(400).json(err))
+            } else {
+                const msg = `Usuario ja cadastrado`
+                res.status(400).send(msg)
+            }
         })
     }
 
